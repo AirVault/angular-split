@@ -1,8 +1,7 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common'), require('rxjs/Subject'), require('rxjs/add/operator/debounceTime')) :
-	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', '@angular/common', 'rxjs/Subject', 'rxjs/add/operator/debounceTime'], factory) :
-	(factory((global.ng = global.ng || {}, global.ng.angularSplit = {}),global.ng.core,global.ng.common,global.Rx));
-}(this, (function (exports,core,common,Subject) { 'use strict';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Directive, ElementRef, EventEmitter, HostBinding, Input, NgModule, Output, Renderer2 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Subject as Subject$1 } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
 
 /**
  * @fileoverview added by tsickle
@@ -54,11 +53,11 @@ var SplitComponent = (function () {
         this._gutterImageH = '';
         this._gutterImageV = '';
         this._dir = 'ltr';
-        this.dragStart = new core.EventEmitter(false);
-        this.dragProgress = new core.EventEmitter(false);
-        this.dragEnd = new core.EventEmitter(false);
-        this.gutterClick = new core.EventEmitter(false);
-        this.transitionEndInternal = new Subject.Subject();
+        this.dragStart = new EventEmitter(false);
+        this.dragProgress = new EventEmitter(false);
+        this.dragEnd = new EventEmitter(false);
+        this.gutterClick = new EventEmitter(false);
+        this.transitionEndInternal = new Subject$1();
         this.transitionEnd = (/** @type {?} */ (this.transitionEndInternal.asObservable())).debounceTime(20);
         this.isViewInitialized = false;
         this.isDragging = false;
@@ -741,40 +740,40 @@ var SplitComponent = (function () {
         this.stopDragging();
     };
     SplitComponent.decorators = [
-        { type: core.Component, args: [{
+        { type: Component, args: [{
                     selector: 'split',
-                    changeDetection: core.ChangeDetectionStrategy.OnPush,
+                    changeDetection: ChangeDetectionStrategy.OnPush,
                     styles: ["\n        :host {\n            display: flex;\n            flex-wrap: nowrap;\n            justify-content: flex-start;\n            align-items: stretch;\n            overflow: hidden;\n            /*\n                Important to keep following rules even if overrided later by 'HostBinding'\n                because if [width] & [height] not provided, when build() is executed,\n                'HostBinding' hasn't been applied yet so code:\n                this.elRef.nativeElement[\"offsetHeight\"] gives wrong value!\n             */\n            width: 100%;\n            height: 100%;\n        }\n\n        split-gutter {\n            flex-grow: 0;\n            flex-shrink: 0;\n            background-position: center center;\n            background-repeat: no-repeat;\n        }\n    "],
                     template: "\n        <ng-content></ng-content>\n        <ng-template ngFor let-area [ngForOf]=\"displayedAreas\" let-index=\"index\" let-last=\"last\">\n            <split-gutter *ngIf=\"last === false\"\n                          [order]=\"index*2+1\"\n                          [direction]=\"direction\"\n                          [useTransition]=\"useTransition\"\n                          [size]=\"gutterSize\"\n                          [color]=\"gutterColor\"\n                          [imageH]=\"gutterImageH\"\n                          [imageV]=\"gutterImageV\"\n                          [disabled]=\"disabled\"\n                          (mousedown)=\"startDragging($event, index*2+1, index+1)\"\n                          (touchstart)=\"startDragging($event, index*2+1, index+1)\"></split-gutter>\n        </ng-template>",
                 },] },
     ];
     /** @nocollapse */
     SplitComponent.ctorParameters = function () { return [
-        { type: core.ElementRef, },
-        { type: core.ChangeDetectorRef, },
-        { type: core.Renderer2, },
+        { type: ElementRef, },
+        { type: ChangeDetectorRef, },
+        { type: Renderer2, },
     ]; };
     SplitComponent.propDecorators = {
-        "direction": [{ type: core.Input },],
-        "useTransition": [{ type: core.Input },],
-        "disabled": [{ type: core.Input },],
-        "width": [{ type: core.Input },],
-        "height": [{ type: core.Input },],
-        "gutterSize": [{ type: core.Input },],
-        "gutterColor": [{ type: core.Input },],
-        "gutterImageH": [{ type: core.Input },],
-        "gutterImageV": [{ type: core.Input },],
-        "dir": [{ type: core.Input },],
-        "dragStart": [{ type: core.Output },],
-        "dragProgress": [{ type: core.Output },],
-        "dragEnd": [{ type: core.Output },],
-        "gutterClick": [{ type: core.Output },],
-        "transitionEnd": [{ type: core.Output },],
-        "cssFlexdirection": [{ type: core.HostBinding, args: ['style.flex-direction',] },],
-        "cssWidth": [{ type: core.HostBinding, args: ['style.width',] },],
-        "cssHeight": [{ type: core.HostBinding, args: ['style.height',] },],
-        "cssMinwidth": [{ type: core.HostBinding, args: ['style.min-width',] },],
-        "cssMinheight": [{ type: core.HostBinding, args: ['style.min-height',] },],
+        "direction": [{ type: Input },],
+        "useTransition": [{ type: Input },],
+        "disabled": [{ type: Input },],
+        "width": [{ type: Input },],
+        "height": [{ type: Input },],
+        "gutterSize": [{ type: Input },],
+        "gutterColor": [{ type: Input },],
+        "gutterImageH": [{ type: Input },],
+        "gutterImageV": [{ type: Input },],
+        "dir": [{ type: Input },],
+        "dragStart": [{ type: Output },],
+        "dragProgress": [{ type: Output },],
+        "dragEnd": [{ type: Output },],
+        "gutterClick": [{ type: Output },],
+        "transitionEnd": [{ type: Output },],
+        "cssFlexdirection": [{ type: HostBinding, args: ['style.flex-direction',] },],
+        "cssWidth": [{ type: HostBinding, args: ['style.width',] },],
+        "cssHeight": [{ type: HostBinding, args: ['style.height',] },],
+        "cssMinwidth": [{ type: HostBinding, args: ['style.min-width',] },],
+        "cssMinheight": [{ type: HostBinding, args: ['style.min-height',] },],
     };
     return SplitComponent;
 }());
@@ -1033,21 +1032,21 @@ var SplitAreaDirective = (function () {
         this.split.removeArea(this);
     };
     SplitAreaDirective.decorators = [
-        { type: core.Directive, args: [{
+        { type: Directive, args: [{
                     selector: 'split-area'
                 },] },
     ];
     /** @nocollapse */
     SplitAreaDirective.ctorParameters = function () { return [
-        { type: core.ElementRef, },
-        { type: core.Renderer2, },
+        { type: ElementRef, },
+        { type: Renderer2, },
         { type: SplitComponent, },
     ]; };
     SplitAreaDirective.propDecorators = {
-        "order": [{ type: core.Input },],
-        "size": [{ type: core.Input },],
-        "minSize": [{ type: core.Input },],
-        "visible": [{ type: core.Input },],
+        "order": [{ type: Input },],
+        "size": [{ type: Input },],
+        "minSize": [{ type: Input },],
+        "visible": [{ type: Input },],
     };
     return SplitAreaDirective;
 }());
@@ -1250,24 +1249,24 @@ var SplitGutterDirective = (function () {
         }
     };
     SplitGutterDirective.decorators = [
-        { type: core.Directive, args: [{
+        { type: Directive, args: [{
                     selector: 'split-gutter'
                 },] },
     ];
     /** @nocollapse */
     SplitGutterDirective.ctorParameters = function () { return [
-        { type: core.ElementRef, },
-        { type: core.Renderer2, },
+        { type: ElementRef, },
+        { type: Renderer2, },
     ]; };
     SplitGutterDirective.propDecorators = {
-        "order": [{ type: core.Input },],
-        "direction": [{ type: core.Input },],
-        "useTransition": [{ type: core.Input },],
-        "size": [{ type: core.Input },],
-        "color": [{ type: core.Input },],
-        "imageH": [{ type: core.Input },],
-        "imageV": [{ type: core.Input },],
-        "disabled": [{ type: core.Input },],
+        "order": [{ type: Input },],
+        "direction": [{ type: Input },],
+        "useTransition": [{ type: Input },],
+        "size": [{ type: Input },],
+        "color": [{ type: Input },],
+        "imageH": [{ type: Input },],
+        "imageV": [{ type: Input },],
+        "disabled": [{ type: Input },],
     };
     return SplitGutterDirective;
 }());
@@ -1306,9 +1305,9 @@ var AngularSplitModule = (function () {
         };
     };
     AngularSplitModule.decorators = [
-        { type: core.NgModule, args: [{
+        { type: NgModule, args: [{
                     imports: [
-                        common.CommonModule
+                        CommonModule
                     ],
                     declarations: [
                         SplitComponent,
@@ -1326,12 +1325,27 @@ var AngularSplitModule = (function () {
     return AngularSplitModule;
 }());
 
-exports.AngularSplitModule = AngularSplitModule;
-exports.SplitComponent = SplitComponent;
-exports.SplitAreaDirective = SplitAreaDirective;
-exports.ɵa = SplitGutterDirective;
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+// Public classes.
 
-Object.defineProperty(exports, '__esModule', { value: true });
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Entry point for all public APIs of the package.
+ */
 
-})));
-//# sourceMappingURL=angular-split.umd.js.map
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+export { AngularSplitModule, SplitComponent, SplitAreaDirective, SplitGutterDirective as ɵa };
+//# sourceMappingURL=angular-split.js.map
