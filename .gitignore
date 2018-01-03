@@ -4,4 +4,3 @@ $ cat .gitignore
 /coverage
 
 *.log
-*.tgz
