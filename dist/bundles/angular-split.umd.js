@@ -47,6 +47,7 @@ var SplitComponent = (function () {
         this._direction = 'horizontal';
         this._useTransition = false;
         this._disabled = false;
+        this._useBackground = true;
         this._width = null;
         this._height = null;
         this._gutterSize = 11;
@@ -130,6 +131,26 @@ var SplitComponent = (function () {
         function (v) {
             v = (typeof (v) === 'boolean') ? v : (v === 'false' ? false : true);
             this._disabled = v;
+            // Force repaint if modified from TS class (instead of the template)
+            this.cdRef.markForCheck();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SplitComponent.prototype, "useBackground", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return this._useBackground;
+        },
+        set: /**
+         * @param {?} v
+         * @return {?}
+         */
+        function (v) {
+            v = (typeof (v) === 'boolean') ? v : (v === 'false' ? false : true);
+            this._useBackground = v;
             // Force repaint if modified from TS class (instead of the template)
             this.cdRef.markForCheck();
         },
@@ -745,7 +766,7 @@ var SplitComponent = (function () {
                     selector: 'split',
                     changeDetection: core.ChangeDetectionStrategy.OnPush,
                     styles: ["\n        :host {\n            display: flex;\n            flex-wrap: nowrap;\n            justify-content: flex-start;\n            align-items: stretch;\n            overflow: hidden;\n            /*\n                Important to keep following rules even if overrided later by 'HostBinding'\n                because if [width] & [height] not provided, when build() is executed,\n                'HostBinding' hasn't been applied yet so code:\n                this.elRef.nativeElement[\"offsetHeight\"] gives wrong value!\n             */\n            width: 100%;\n            height: 100%;\n        }\n\n        split-gutter {\n            flex-grow: 0;\n            flex-shrink: 0;\n            background-position: center center;\n            background-repeat: no-repeat;\n        }\n    "],
-                    template: "\n        <ng-content></ng-content>\n        <ng-template ngFor let-area [ngForOf]=\"displayedAreas\" let-index=\"index\" let-last=\"last\">\n            <split-gutter *ngIf=\"last === false\"\n                          [order]=\"index*2+1\"\n                          [direction]=\"direction\"\n                          [useTransition]=\"useTransition\"\n                          [size]=\"gutterSize\"\n                          [color]=\"gutterColor\"\n                          [imageH]=\"gutterImageH\"\n                          [imageV]=\"gutterImageV\"\n                          [disabled]=\"disabled\"\n                          (mousedown)=\"startDragging($event, index*2+1, index+1)\"\n                          (touchstart)=\"startDragging($event, index*2+1, index+1)\"></split-gutter>\n        </ng-template>",
+                    template: "\n        <ng-content></ng-content>\n        <ng-template ngFor let-area [ngForOf]=\"displayedAreas\" let-index=\"index\" let-last=\"last\">\n            <split-gutter *ngIf=\"last === false\"\n                          [order]=\"index*2+1\"\n                          [direction]=\"direction\"\n                          [useTransition]=\"useTransition\"\n                          [size]=\"gutterSize\"\n                          [color]=\"gutterColor\"\n                          [useBackground]=\"useBackground\"\n                          [imageH]=\"gutterImageH\"\n                          [imageV]=\"gutterImageV\"\n                          [disabled]=\"disabled\"\n                          (mousedown)=\"startDragging($event, index*2+1, index+1)\"\n                          (touchstart)=\"startDragging($event, index*2+1, index+1)\"></split-gutter>\n        </ng-template>",
                 },] },
     ];
     /** @nocollapse */
@@ -758,6 +779,7 @@ var SplitComponent = (function () {
         "direction": [{ type: core.Input },],
         "useTransition": [{ type: core.Input },],
         "disabled": [{ type: core.Input },],
+        "useBackground": [{ type: core.Input },],
         "width": [{ type: core.Input },],
         "height": [{ type: core.Input },],
         "gutterSize": [{ type: core.Input },],
@@ -1061,6 +1083,7 @@ var SplitGutterDirective = (function () {
     function SplitGutterDirective(elRef, renderer) {
         this.elRef = elRef;
         this.renderer = renderer;
+        this._useBackground = true;
         this._disabled = false;
     }
     Object.defineProperty(SplitGutterDirective.prototype, "order", {
@@ -1139,6 +1162,18 @@ var SplitGutterDirective = (function () {
          */
         function (v) {
             this._color = v;
+            this.refreshStyle();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SplitGutterDirective.prototype, "useBackground", {
+        set: /**
+         * @param {?} v
+         * @return {?}
+         */
+        function (v) {
+            this._useBackground = v;
             this.refreshStyle();
         },
         enumerable: true,
@@ -1240,14 +1275,17 @@ var SplitGutterDirective = (function () {
      * @return {?}
      */
     function (state) {
-        switch (state) {
-            case 'horizontal':
-                return (this.imageH !== '') ? this.imageH : defaultImageH;
-            case 'vertical':
-                return (this.imageV !== '') ? this.imageV : defaultImageV;
-            case 'disabled':
-                return '';
+        if (this._useBackground) {
+            switch (state) {
+                case 'horizontal':
+                    return (this.imageH !== '') ? this.imageH : defaultImageH;
+                case 'vertical':
+                    return (this.imageV !== '') ? this.imageV : defaultImageV;
+                case 'disabled':
+                    return '';
+            }
         }
+        return '';
     };
     SplitGutterDirective.decorators = [
         { type: core.Directive, args: [{
@@ -1265,6 +1303,7 @@ var SplitGutterDirective = (function () {
         "useTransition": [{ type: core.Input },],
         "size": [{ type: core.Input },],
         "color": [{ type: core.Input },],
+        "useBackground": [{ type: core.Input },],
         "imageH": [{ type: core.Input },],
         "imageV": [{ type: core.Input },],
         "disabled": [{ type: core.Input },],

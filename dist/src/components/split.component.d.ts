@@ -44,6 +44,8 @@ export declare class SplitComponent implements AfterViewInit, OnDestroy {
     useTransition: boolean;
     private _disabled;
     disabled: boolean;
+    private _useBackground;
+    useBackground: boolean;
     private _width;
     width: number | null;
     private _height;

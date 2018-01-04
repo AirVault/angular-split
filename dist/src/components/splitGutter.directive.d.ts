@@ -10,6 +10,8 @@ export declare class SplitGutterDirective {
     size: number;
     private _color;
     color: string;
+    private _useBackground;
+    useBackground: boolean;
     private _imageH;
     imageH: string;
     private _imageV;

@@ -76,6 +76,7 @@ import { SplitAreaDirective } from './splitArea.directive';
                           [useTransition]="useTransition"
                           [size]="gutterSize"
                           [color]="gutterColor"
+                          [useBackground]="useBackground"
                           [imageH]="gutterImageH"
                           [imageV]="gutterImageV"
                           [disabled]="disabled"
@@ -129,6 +130,23 @@ export class SplitComponent implements AfterViewInit, OnDestroy {
 
     get disabled(): boolean {
         return this._disabled;
+    }
+
+    ////
+
+
+    private _useBackground: boolean = true;
+
+    @Input() set useBackground(v: boolean) {
+        v = (typeof(v) === 'boolean') ? v : (v === 'false' ? false : true);
+        this._useBackground = v;
+
+        // Force repaint if modified from TS class (instead of the template)
+        this.cdRef.markForCheck();
+    }
+
+    get useBackground(): boolean {
+        return this._useBackground;
     }
 
     ////

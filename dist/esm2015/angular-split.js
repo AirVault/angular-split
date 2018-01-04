@@ -51,6 +51,7 @@ class SplitComponent {
         this._direction = 'horizontal';
         this._useTransition = false;
         this._disabled = false;
+        this._useBackground = true;
         this._width = null;
         this._height = null;
         this._gutterSize = 11;
@@ -126,6 +127,22 @@ class SplitComponent {
      */
     get disabled() {
         return this._disabled;
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    set useBackground(v) {
+        v = (typeof (v) === 'boolean') ? v : (v === 'false' ? false : true);
+        this._useBackground = v;
+        // Force repaint if modified from TS class (instead of the template)
+        this.cdRef.markForCheck();
+    }
+    /**
+     * @return {?}
+     */
+    get useBackground() {
+        return this._useBackground;
     }
     /**
      * @param {?} v
@@ -650,6 +667,7 @@ SplitComponent.decorators = [
                           [useTransition]="useTransition"
                           [size]="gutterSize"
                           [color]="gutterColor"
+                          [useBackground]="useBackground"
                           [imageH]="gutterImageH"
                           [imageV]="gutterImageV"
                           [disabled]="disabled"
@@ -668,6 +686,7 @@ SplitComponent.propDecorators = {
     "direction": [{ type: Input },],
     "useTransition": [{ type: Input },],
     "disabled": [{ type: Input },],
+    "useBackground": [{ type: Input },],
     "width": [{ type: Input },],
     "height": [{ type: Input },],
     "gutterSize": [{ type: Input },],
@@ -920,6 +939,7 @@ class SplitGutterDirective {
     constructor(elRef, renderer) {
         this.elRef = elRef;
         this.renderer = renderer;
+        this._useBackground = true;
         this._disabled = false;
     }
     /**
@@ -975,6 +995,14 @@ class SplitGutterDirective {
      */
     set color(v) {
         this._color = v;
+        this.refreshStyle();
+    }
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    set useBackground(v) {
+        this._useBackground = v;
         this.refreshStyle();
     }
     /**
@@ -1056,14 +1084,17 @@ class SplitGutterDirective {
      * @return {?}
      */
     getImage(state) {
-        switch (state) {
-            case 'horizontal':
-                return (this.imageH !== '') ? this.imageH : defaultImageH;
-            case 'vertical':
-                return (this.imageV !== '') ? this.imageV : defaultImageV;
-            case 'disabled':
-                return '';
+        if (this._useBackground) {
+            switch (state) {
+                case 'horizontal':
+                    return (this.imageH !== '') ? this.imageH : defaultImageH;
+                case 'vertical':
+                    return (this.imageV !== '') ? this.imageV : defaultImageV;
+                case 'disabled':
+                    return '';
+            }
         }
+        return '';
     }
 }
 SplitGutterDirective.decorators = [
@@ -1082,6 +1113,7 @@ SplitGutterDirective.propDecorators = {
     "useTransition": [{ type: Input },],
     "size": [{ type: Input },],
     "color": [{ type: Input },],
+    "useBackground": [{ type: Input },],
     "imageH": [{ type: Input },],
     "imageV": [{ type: Input },],
     "disabled": [{ type: Input },],
