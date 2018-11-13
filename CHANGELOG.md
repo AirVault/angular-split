@@ -1,4 +1,31 @@
 
+<a name="1.0.1"></a>
+# 1.0.1 (2018-11-13)
+
+* **Bug:** Some events were emitted outside of Zone.js leading to errors like [#118](https://github.com/bertrandg/angular-split/issues/118) &  [#109](https://github.com/bertrandg/angular-split/issues/109).
+
+
+<a name="1.0.0"></a>
+# 1.0.0 (2018-11-10)
+
+* **Project organization:** Now follow `@angular/cli` library management way which is awesome: [Library status update 📢](https://github.com/bertrandg/angular-split/issues/122).
+* **Dependencies:** `angular@^7` and `rxjs@^6` with pipe method (`rxjs-compat` not needed anymore).
+* **Breaking changes:** Prefix `as-` added to component/directive to follow best practises: `<as-split>` & `<as-split-area>`.
+* **Regression:** Revert change about `devicePixelRatio` added in `1.0.0-rc.3` because it was causing bad behavior on mobile [#85](https://github.com/bertrandg/angular-split/issues/85), need to investigate more to resolve [#81](https://github.com/bertrandg/angular-split/issues/81).
+
+
+<a name="1.0.0-rc.3"></a>
+# 1.0.0-rc.3 (2018-01-31)
+
+* **Bug:** Use `devicePixelRatio` to make dragging value effective on HiDPI screen and browsers with zoom !== 100%, thanks to [tkglaser](https://github.com/tkglaser) and [HondaHiroyuki](https://github.com/HondaHiroyuki).
+
+
+<a name="1.0.0-rc.1"></a>
+# 1.0.0-rc.1 (2018-01-13)
+
+* **Performances:** Put all event listeners inside `ngZone.runOutsideAngular()` to avoid triggering change detection during drag, thanks to [klemenoslaj](https://github.com/klemenoslaj).
+
+
 <a name="1.0.0-rc.0"></a>
 # 1.0.0-rc.0 (2017-12-01)
 
