@@ -1,4 +1,3 @@
-/**
- * Entry point for all public APIs of the package.
- */
-export * from './src/angular-split';
+export { AngularSplitModule } from './lib/module';
+export { SplitComponent } from './lib/component/split.component';
+export { SplitAreaDirective } from './lib/directive/splitArea.directive';
